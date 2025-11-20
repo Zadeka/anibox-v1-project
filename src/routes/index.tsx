@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
-  component: searchPage,
+  component: homeAnimePage,
 })
 
-function searchPage() {
+function homeAnimePage() {
   return (
     <div className="p-6">
       <h1>Pencarian Anime 🔎</h1>

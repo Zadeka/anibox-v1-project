@@ -10,7 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UpcomingRouteImport } from './routes/upcoming'
-import { Route as TopAnimeRouteImport } from './routes/topAnime'
+import { Route as TopAnimeRouteImport } from './routes/top-anime'
 import { Route as SeasonalRouteImport } from './routes/seasonal'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SchedulesRouteImport } from './routes/schedules'
@@ -29,8 +29,8 @@ const UpcomingRoute = UpcomingRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const TopAnimeRoute = TopAnimeRouteImport.update({
-  id: '/topAnime',
-  path: '/topAnime',
+  id: '/top-anime',
+  path: '/top-anime',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SeasonalRoute = SeasonalRouteImport.update({
@@ -95,7 +95,7 @@ export interface FileRoutesByFullPath {
   '/schedules': typeof SchedulesRoute
   '/search': typeof SearchRoute
   '/seasonal': typeof SeasonalRoute
-  '/topAnime': typeof TopAnimeRoute
+  '/top-anime': typeof TopAnimeRoute
   '/upcoming': typeof UpcomingRoute
   '/anime/$animeId': typeof AnimeAnimeIdRouteWithChildren
   '/anime/$animeId/characters': typeof AnimeAnimeIdCharactersRoute
@@ -110,7 +110,7 @@ export interface FileRoutesByTo {
   '/schedules': typeof SchedulesRoute
   '/search': typeof SearchRoute
   '/seasonal': typeof SeasonalRoute
-  '/topAnime': typeof TopAnimeRoute
+  '/top-anime': typeof TopAnimeRoute
   '/upcoming': typeof UpcomingRoute
   '/anime/$animeId': typeof AnimeAnimeIdRouteWithChildren
   '/anime/$animeId/characters': typeof AnimeAnimeIdCharactersRoute
@@ -126,7 +126,7 @@ export interface FileRoutesById {
   '/schedules': typeof SchedulesRoute
   '/search': typeof SearchRoute
   '/seasonal': typeof SeasonalRoute
-  '/topAnime': typeof TopAnimeRoute
+  '/top-anime': typeof TopAnimeRoute
   '/upcoming': typeof UpcomingRoute
   '/anime/$animeId': typeof AnimeAnimeIdRouteWithChildren
   '/anime/$animeId/characters': typeof AnimeAnimeIdCharactersRoute
@@ -143,7 +143,7 @@ export interface FileRouteTypes {
     | '/schedules'
     | '/search'
     | '/seasonal'
-    | '/topAnime'
+    | '/top-anime'
     | '/upcoming'
     | '/anime/$animeId'
     | '/anime/$animeId/characters'
@@ -158,7 +158,7 @@ export interface FileRouteTypes {
     | '/schedules'
     | '/search'
     | '/seasonal'
-    | '/topAnime'
+    | '/top-anime'
     | '/upcoming'
     | '/anime/$animeId'
     | '/anime/$animeId/characters'
@@ -173,7 +173,7 @@ export interface FileRouteTypes {
     | '/schedules'
     | '/search'
     | '/seasonal'
-    | '/topAnime'
+    | '/top-anime'
     | '/upcoming'
     | '/anime/$animeId'
     | '/anime/$animeId/characters'
@@ -203,10 +203,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UpcomingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/topAnime': {
-      id: '/topAnime'
-      path: '/topAnime'
-      fullPath: '/topAnime'
+    '/top-anime': {
+      id: '/top-anime'
+      path: '/top-anime'
+      fullPath: '/top-anime'
       preLoaderRoute: typeof TopAnimeRouteImport
       parentRoute: typeof rootRouteImport
     }

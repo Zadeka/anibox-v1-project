@@ -28,6 +28,17 @@ export interface AnimeFilterParams {
   order_by?: string;
   sort?: string;
   limit?: number;
+  filter?: "bypopularity" | "airing" | "upcoming" | "favorite"; // Untuk top anime
+  day?:
+    | "monday"
+    | "tuesday"
+    | "wednesday"
+    | "thursday"
+    | "friday"
+    | "saturday"
+    | "sunday"; // Untuk schedule
+  kids?: boolean; // Filter anime kids
+  sfw?: boolean; // Safe for work
 }
 
 // 1. GET All Anime (untuk Home Page, Anime Populer)
@@ -112,19 +123,18 @@ export const getSeasonalAnime = async (
   page: number = 1,
   filters?: AnimeFilterParams,
 ): ListResponse<AnimeItem> => {
-  
   const limitValue = filters?.limit || 25;
 
   const params: Record<string, string | number | boolean> = {
     page,
     limit: limitValue,
-    sfw: true, 
+    sfw: true,
   };
 
   if (filters) {
     // 1. Filter Tipe (type): Dipetakan ke parameter 'filter' Jikan
     if (filters.type) {
-      params.filter = filters.type; 
+      params.filter = filters.type;
     }
   }
 
@@ -159,26 +169,134 @@ export const getUpcomingAnime = async (): ListResponse<AnimeItem> => {
   }
 };
 
-/** 7. GET Top Anime Ranking */
-export const getTopAnime = async (): ListResponse<AnimeItem> => {
+/** 7. GET Top Anime Ranking dengan Filter */
+export const getTopAnime = async (
+  page: number = 1,
+  filters?: AnimeFilterParams,
+): ListResponse<AnimeItem> => {
+  const limitValue = filters?.limit || 25;
+
+  const params: Record<string, string | number | boolean> = {
+    page,
+    limit: limitValue,
+  };
+
+  // Tambahkan filter dari parameter
+  if (filters) {
+    // Filter type
+    if (filters.type) {
+      params.type = filters.type;
+    }
+
+    // Filter status (untuk top anime, mungkin tidak selalu tersedia)
+    if (filters.status) {
+      params.status = filters.status;
+    }
+
+    // Filter rating
+    if (filters.rating) {
+      params.rating = filters.rating;
+    }
+
+    // Filter berdasarkan kategori top (bypopularity, airing, upcoming, favorite)
+    // Default ke bypopularity jika tidak ada
+    if (filters.filter) {
+      params.filter = filters.filter;
+    } else {
+      params.filter = "bypopularity";
+    }
+  } else {
+    // Default filter ke bypopularity
+    params.filter = "bypopularity";
+  }
+
+  console.log("🏆 Top Anime Request Params:", params);
+
   try {
-    const response = await axiosInstance.get("/top/anime?filter=bypopularity");
+    const response = await axiosInstance.get<ApiResponse<AnimeItem>>(
+      "/top/anime",
+      { params },
+    );
+
+    console.log("✅ Top Anime Response:", {
+      total: response.data.data.length,
+      pagination: response.data.pagination,
+    });
+
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      console.error(
+        "❌ Top Anime Error:",
+        error.response?.data || error.message,
+      );
       throw error as AxiosError;
     }
     throw new Error("An unexpected error occurred");
   }
 };
 
-/** 8. GET Schedules (Jadwal Rilis) */
-export const getSchedules = async (): ListResponse<ScheduleItem> => {
+/** 8. GET Schedules (Jadwal Rilis) dengan Filter */
+export const getSchedules = async (
+  page: number = 1,
+  filters?: AnimeFilterParams & { day?: string }, // Tambah filter hari
+): ListResponse<ScheduleItem> => {
+  const limitValue = filters?.limit || 25;
+
+  const params: Record<string, string | number | boolean> = {
+    page,
+    limit: limitValue,
+    sfw: true,
+  };
+
+  // Tambahkan filter dari parameter
+  if (filters) {
+    // Filter hari (monday, tuesday, etc)
+    if (filters.day) {
+      params.filter = filters.day;
+    }
+
+    // Filter type
+    if (filters.type) {
+      params.type = filters.type;
+    }
+
+    // Filter rating
+    if (filters.rating) {
+      params.rating = filters.rating;
+    }
+
+    // Kids filter (untuk anime anak-anak)
+    if (filters.kids !== undefined) {
+      params.kids = filters.kids;
+    }
+
+    // SFW filter
+    if (filters.sfw !== undefined) {
+      params.sfw = filters.sfw;
+    }
+  }
+
+  console.log("📅 Schedules Request Params:", params);
+
   try {
-    const response = await axiosInstance.get("/schedules");
+    const response = await axiosInstance.get<ApiResponse<ScheduleItem>>(
+      "/schedules",
+      { params },
+    );
+
+    console.log("✅ Schedules Response:", {
+      total: response.data.data.length,
+      pagination: response.data.pagination,
+    });
+
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      console.error(
+        "❌ Schedules Error:",
+        error.response?.data || error.message,
+      );
       throw error as AxiosError;
     }
     throw new Error("An unexpected error occurred");
