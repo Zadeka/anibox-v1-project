@@ -1,4 +1,4 @@
-# 🎬 AniBox v2
+# 🎬 AniBox v1
 
 > Modern anime discovery platform built with React, TypeScript, and TanStack Router
 
