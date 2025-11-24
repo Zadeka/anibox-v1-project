@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { CalendarDays } from "lucide-react";
-import type { AnimeItem, ScheduleItem } from "../types/anime.type";
+import type {ScheduleItem } from "../types/anime.type";
 import { getSchedules } from "../api/anime.api";
 import { AnimeCardGrid } from "../components/common/AnimeCardGrid";
 import { AnimeCardList } from "../components/common/AnimeCardList";
@@ -45,8 +45,8 @@ function SchedulePage() {
     return days[new Date().getDay()] as any;
   };
 
-  const removeDuplicates = (animes: AnimeItem[]): AnimeItem[] => {
-    const uniqueAnimes = new Map<number, AnimeItem>();
+  const removeDuplicates = (animes: ScheduleItem[]): ScheduleItem[] => {
+    const uniqueAnimes = new Map<number, ScheduleItem>();
     animes.forEach((anime) => {
       if (!uniqueAnimes.has(anime.mal_id)) {
         uniqueAnimes.set(anime.mal_id, anime);
